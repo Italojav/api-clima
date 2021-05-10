@@ -1,0 +1,13 @@
+* {
+    font-family: 'Oswald', sans-serif;
+}
+
+.clima {
+    background-image: url("img/climas.jpg");
+    width: 100%;
+}
+
+p {
+    color: hsl(32, 96%, 51%);
+    font-size: 30px;
+}

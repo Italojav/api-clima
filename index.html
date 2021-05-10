@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,600&display=swap" rel="stylesheet">
+    <title>Api Clima</title>
+    <script src="secrets.js"></script>
+    <link rel="stylesheet" href="clima.css">
+</head>
+
+<body>
+    <div class="container-fluid bg-info p-5">
+        <center>
+            <p>El Clima en tu ciudad</p>
+            <div class=" clima container col-10">
+                <div class="row">
+                    <div class="col">
+                        <div class="col">
+                            <p id="lugar"></p>
+                        </div>
+                        <div class="col">
+                            <div id="imagen"></div>
+                            <p id="pronostico"></p>
+                        </div>
+                        <p id="temp"></p>
+                        <p id="viento"></p>
+                        <p id="dir"></p>
+                        <p id="humedad"></p>
+                        <p id="coordenadas"></p>
+                    </div>
+                    <div class="col-4 ">
+                        <form class="p-3">
+                            <input id="buscador" type="text" class="form-control col-4 " placeholder="Ciudad">
+                            <button type="submit" class="btn btn-primary mt-2">Ver Clima </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("form").submit(function() {
+                //console.log($("#buscador").val());
+                let ciudad = $("#buscador").val();
+                //console.log(ciudad);
+                //e.preventDefault();
+                const url = "http://api.openweathermap.org/data/2.5/weather?q=" + ciudad + "&appid=" + key + "&lang=es&units=metric";
+                $.get(url, function(data) {
+                    // console.log(url);
+                    $("#lugar").html(`${data.name}`);
+                    $("#pronostico").html(data.weather[0].description);
+                    $("#temp").html(`${data.main.temp} °C`);
+                    let foto = data.weather[0].icon;
+                    $("#imagen").css("background-image", "url('http://openweathermap.org/img/wn/" + foto + ".png')");
+                    $("#viento").html(`Viento: ${data.wind.speed} km/h`);
+                    $("#dir").html(`Direccion: ${data.wind.deg} °`);
+                    $("#humedad").html(`Humedad Relativa: ${data.main.humidity} %`);
+                    $("#coordenadas").html(`Coordenadas: ${data.coord.lat}  ${data.coord.lon}`);
+                }, 'json');
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>
